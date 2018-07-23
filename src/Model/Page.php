@@ -8,12 +8,13 @@ class Page
     public $page_id;
     public $url;
     public $website_id;
-    
+    public $lastView;
+
     public function __construct()
     {
         $this->website_id = intval($this->website_id);
         $this->page_id = intval($this->page_id);
-    
+        $this->lastView = $this->lastView ? new \DateTime($this->lastView) : null;
     }
 
     /**
@@ -39,6 +40,17 @@ class Page
     {
         return $this->website_id;
     }
-    
-    
+
+    /**
+     * @return string
+     */
+    public function getLastView()
+    {
+        return $this->lastView instanceof \DateTime ?
+            $this->lastView->format('Y-m-d H:i:s')
+            :
+            'No visits yet';
+    }
+
+
 }
