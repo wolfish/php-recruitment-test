@@ -49,4 +49,15 @@ class WebsiteManager
         return $this->database->lastInsertId();
     }
 
+    public function getByHostname($hostname)
+    {
+        $query = $this->database->prepare(
+            'SELECT * FROM `websites` WHERE `hostname` = :hostname'
+        );
+        $query->bindParam(':hostname', $hostname);
+        $query->execute();
+
+        return $query->fetchObject(Website::class);
+    }
+
 }

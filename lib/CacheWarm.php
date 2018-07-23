@@ -30,11 +30,11 @@ class Old_Legacy_CacheWarmer_Actor
 class Old_Legacy_CacheWarmer_Warmer
 {
     /** @var Old_Legacy_CacheWarmer_Actor */
-    private $actor;
+    protected $actor;
     /** @var Old_Legacy_CacheWarmer_Resolver_Interface */
-    private $resolver;
+    protected $resolver;
     /** @var string */
-    private $hostname;
+    protected $hostname;
 
     /**
      * @param Old_Legacy_CacheWarmer_Actor $actor

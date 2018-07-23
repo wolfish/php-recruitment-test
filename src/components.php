@@ -18,6 +18,10 @@ use Snowdog\DevTest\Controller\WebsiteAction;
 use Snowdog\DevTest\Menu\LoginMenu;
 use Snowdog\DevTest\Menu\RegisterMenu;
 use Snowdog\DevTest\Menu\WebsitesMenu;
+use Snowdog\DevTest\Menu\VarnishesMenu;
+use Snowdog\DevTest\Controller\VarnishesAction;
+use Snowdog\DevTest\Controller\CreateVarnishAction;
+use Snowdog\DevTest\Controller\CreateVarnishLinkAction;
 
 RouteRepository::registerRoute('GET', '/', IndexAction::class, 'execute');
 RouteRepository::registerRoute('GET', '/login', LoginFormAction::class, 'execute');
@@ -36,4 +40,8 @@ Menu::register(LoginMenu::class, 200);
 Menu::register(RegisterMenu::class, 250);
 Menu::register(WebsitesMenu::class, 10);
 
-Migrations::registerComponentMigration('Snowdog\\DevTest', 3);
+Migrations::registerComponentMigration('Snowdog\\DevTest', 4);
+Menu::register(VarnishesMenu::class, 210);
+RouteRepository::registerRoute('GET', '/varnish', VarnishesAction::class, 'execute');
+RouteRepository::registerRoute('POST', '/varnish/create', CreateVarnishAction::class, 'execute');
+RouteRepository::registerRoute('POST', '/varnish/link', CreateVarnishLinkAction::class, 'execute');

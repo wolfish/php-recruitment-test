@@ -16,3 +16,12 @@ body {
 .padded {
     padding: 15px;
 }
+
+
+#ajaxFlash > p {
+    position: fixed;
+    top: 51px;
+    height: 50px;
+    width: 60%;
+    z-index: 1031;
+}
