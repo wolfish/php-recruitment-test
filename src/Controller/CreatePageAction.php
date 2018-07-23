@@ -6,7 +6,7 @@ use Snowdog\DevTest\Model\PageManager;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreatePageAction
+class CreatePageAction extends AbstractAction
 {
 
     public function __construct(UserManager $userManager, WebsiteManager $websiteManager, PageManager $pageManager)
@@ -18,20 +18,22 @@ class CreatePageAction
 
     public function execute()
     {
+        if (isset($_SESSION['login'])) {
+            return $this->forbidden();
+        }
+
         $url = $_POST['url'];
         $websiteId = $_POST['website_id'];
 
-        if (isset($_SESSION['login'])) {
-            $user = $this->userManager->getByLogin($_SESSION['login']);
-            $website = $this->websiteManager->getById($websiteId);
+        $user = $this->userManager->getByLogin($_SESSION['login']);
+        $website = $this->websiteManager->getById($websiteId);
 
-            if ($website->getUserId() == $user->getUserId()) {
-                if (empty($url)) {
-                    $_SESSION['flash'] = 'URL cannot be empty!';
-                } else {
-                    if ($this->pageManager->create($website, $url)) {
-                        $_SESSION['flash'] = 'URL ' . $url . ' added!';
-                    }
+        if ($website->getUserId() == $user->getUserId()) {
+            if (empty($url)) {
+                $_SESSION['flash'] = 'URL cannot be empty!';
+            } else {
+                if ($this->pageManager->create($website, $url)) {
+                    $_SESSION['flash'] = 'URL ' . $url . ' added!';
                 }
             }
         }

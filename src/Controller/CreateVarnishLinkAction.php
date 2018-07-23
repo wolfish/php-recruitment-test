@@ -7,7 +7,7 @@ use Snowdog\DevTest\Model\Varnish;
 use Snowdog\DevTest\Model\VarnishManager;
 use Snowdog\DevTest\Model\Website;
 
-class CreateVarnishLinkAction
+class CreateVarnishLinkAction extends AbstractAction
 {
     /**
      * @var UserManager
@@ -29,6 +29,10 @@ class CreateVarnishLinkAction
 
     public function execute()
     {
+        if (!$this->user) {
+            $this->forbidden();
+        }
+
         if ($_POST['enabled'] === 'true') {
             $result = $this->varnishManager->link(intval($_POST['varnish']), intval($_POST['website']));
         } else {

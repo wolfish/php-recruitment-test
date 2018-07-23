@@ -7,7 +7,7 @@ use Snowdog\DevTest\Model\Varnish;
 use Snowdog\DevTest\Model\VarnishManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class VarnishesAction
+class VarnishesAction extends AbstractAction
 {
     /**
      * @var UserManager
@@ -62,6 +62,9 @@ class VarnishesAction
     }
 
     public function execute() {
+        if (!isset($_SESSION['login'])) {
+            return $this->forbidden();
+        }
         include __DIR__ . '/../view/varnish.phtml';
     }
 

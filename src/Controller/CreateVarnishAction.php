@@ -5,7 +5,7 @@ namespace Snowdog\DevTest\Controller;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\VarnishManager;
 
-class CreateVarnishAction
+class CreateVarnishAction extends AbstractAction
 {
     /**
      * @var VarnishManager
@@ -31,6 +31,10 @@ class CreateVarnishAction
 
     public function execute()
     {
+        if (!$this->user) {
+            return $this->forbidden();
+        }
+
         $ip = $_POST['ip'];
         $result = $this->varnishManager->create($this->user, $ip);
         $_SESSION['flash'] = $result ? 'Added new varnish cache' : 'Adding varnish cache failed!';

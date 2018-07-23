@@ -31,3 +31,13 @@ switch ($route[0]) {
         $container->call($controller, $parameters);
         break;
 }
+
+// Checking after call, because action can return 403 redirect
+if (http_response_code() === 403) {
+    if (!isset($_SESSION['login'])) {
+        header('Location: /login');
+    } else {
+        header($_SERVER['SERVER_PROTOCOL'] . " 403 Forbidden");
+        require __DIR__ . '/../src/view/403.phtml';
+    }
+}

@@ -5,7 +5,7 @@ namespace Snowdog\DevTest\Controller;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreateWebsiteAction
+class CreateWebsiteAction extends AbstractAction
 {
     /**
      * @var UserManager
@@ -24,6 +24,10 @@ class CreateWebsiteAction
 
     public function execute()
     {
+        if (!$_SESSION['login']) {
+            return $this->forbidden();
+        }
+
         $name = $_POST['name'];
         $hostname = $_POST['hostname'];
 

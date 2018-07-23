@@ -7,7 +7,7 @@ use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\Website;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class WebsiteAction
+class WebsiteAction extends AbstractAction
 {
 
     /**
@@ -36,14 +36,16 @@ class WebsiteAction
 
     public function execute($id)
     {
-        if (isset($_SESSION['login'])) {
-            $user = $this->userManager->getByLogin($_SESSION['login']);
+        if (!isset($_SESSION['login'])) {
+            return $this->forbidden();
+        }
 
-            $website = $this->websiteManager->getById($id);
+        $user = $this->userManager->getByLogin($_SESSION['login']);
 
-            if ($website->getUserId() == $user->getUserId()) {
-                $this->website = $website;
-            }
+        $website = $this->websiteManager->getById($id);
+
+        if ($website->getUserId() == $user->getUserId()) {
+            $this->website = $website;
         }
 
         require __DIR__ . '/../view/website.phtml';
@@ -53,7 +55,7 @@ class WebsiteAction
     {
         if($this->website) {
             return $this->pageManager->getAllByWebsite($this->website);
-        } 
+        }
         return [];
     }
 }

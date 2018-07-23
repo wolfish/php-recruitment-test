@@ -4,7 +4,7 @@ namespace Snowdog\DevTest\Controller;
 
 use Snowdog\DevTest\Model\UserManager;
 
-class RegisterAction
+class RegisterAction extends AbstractAction
 {
 
     /**
@@ -19,11 +19,15 @@ class RegisterAction
 
     public function execute()
     {
+        if (isset($_SESSION['login'])) {
+            return $this->forbidden();
+        }
+
         $password = $_POST['password'];
         $confirm = $_POST['confirm'];
         $name = $_POST['name'];
         $login = $_POST['login'];
-        
+
         if($password != $confirm) {
             $_SESSION['flash'] = 'Given passwords do not match';
         } else if (empty($password)) {
@@ -38,7 +42,7 @@ class RegisterAction
                 return;
             }
         }
-        
+
         header('Location: /register');
     }
 }
