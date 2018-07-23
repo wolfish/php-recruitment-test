@@ -58,4 +58,52 @@ class PageManager
 
         return $stmt->rowCount();
     }
+
+    public function getWebsitePagesStats(Website $website)
+    {
+        $count = $this->database->prepare('SELECT count(*) cnt FROM `pages` WHERE website_id = :websiteId');
+        $websiteId = $website->getWebsiteId();
+        $count->bindParam(':websiteId', $websiteId, \PDO::PARAM_INT);
+        $count->execute();
+        $pagesCount = intval($count->fetchColumn());
+
+        $select = $this->database->prepare(
+            'SELECT * FROM `pages` WHERE website_id = :websiteId AND lastView is not null ORDER BY lastView'
+        );
+        $select->bindParam(':websiteId', $websiteId, \PDO::PARAM_INT);
+        $select->execute();
+        $results = $select->fetchAll(\PDO::FETCH_CLASS, Page::class);
+
+        return [
+            'pagesCount' => $pagesCount,
+            'leastRecent' => $pagesCount === 1 ? null : array_shift($results),
+            'mostRecent' => array_pop($results)
+        ];
+    }
+
+    public function getUserPagesStats(User $user)
+    {
+        $count = $this->database->prepare(
+            'SELECT count(*) cnt FROM `pages` pg LEFT JOIN `websites` we ON we.website_id = pg.website_id ' .
+            'WHERE we.user_id = :userId'
+        );
+        $userId = $user->getUserId();
+        $count->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $count->execute();
+        $pagesCount = intval($count->fetchColumn());
+
+        $select = $this->database->prepare(
+            'SELECT * FROM `pages` pg LEFT JOIN `websites` we ON we.website_id = pg.website_id ' .
+            'WHERE lastView is not null ORDER BY lastView'
+        );
+        $select->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $select->execute();
+        $results = $select->fetchAll(\PDO::FETCH_CLASS, Page::class);
+
+        return [
+            'pagesCount' => $pagesCount,
+            'leastRecent' => $pagesCount === 1 ? null : array_shift($results),
+            'mostRecent' => array_pop($results)
+        ];
+    }
 }

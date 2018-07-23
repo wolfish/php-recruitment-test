@@ -32,6 +32,35 @@
         <?php if ($this->user): ?>
             <p class="bg-success">Hello <?= $this->user->getDisplayName() ?>!</p>
 
+            <div class="bg-info">
+                <?php $userStats = $this->getUserStats(); ?>
+                <strong>Your stats are:</strong>
+                <br>
+                <ul>
+                    <li><strong>Total num of pages:</strong> <?= $userStats['pagesCount'] ?></li>
+                    <li><strong>Least recently visited page:</strong>
+                        <br>
+                        <?php if ($userStats['leastRecent'] instanceof \Snowdog\DevTest\Model\Page): ?>
+                            <?= $userStats['leastRecent']->getUrl() ?>
+                            <br>
+                            <?= $userStats['leastRecent']->getLastView(); ?>
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </li>
+                    <li><strong>Most recently visited page:</strong>
+                        <br>
+                        <?php if ($userStats['mostRecent'] instanceof \Snowdog\DevTest\Model\Page): ?>
+                            <?= $userStats['mostRecent']->getUrl() ?>
+                            <br>
+                            <?= $userStats['mostRecent']->getLastView(); ?>
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </li>
+                </ul>
+            </div>
+
             <div class="padded">
                 <form class="form-inline" method="post" action="/website">
                     <div class="form-group">
@@ -55,12 +84,35 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Hostname</th>
+                        <th>Num of pages</th>
+                        <th>Least recently visited</th>
+                        <th>Most recently visited</th>
                     </tr>
                     <?php foreach ($this->getWebsites() as $website): /** @var \Snowdog\DevTest\Model\Website $website */ ?>
+                        <?php $websiteStats = $this->getWebsiteStats($website); ?>
                         <tr>
                             <td><?= $website->getWebsiteId() ?></td>
                             <td><a href="/website/<?= $website->getWebsiteId() ?>"><?= $website->getName() ?></a></td>
                             <td><?= $website->getHostname() ?></td>
+                            <td><?= $websiteStats['pagesCount']; ?></td>
+                            <td>
+                                <?php if ($websiteStats['leastRecent'] instanceof \Snowdog\DevTest\Model\Page): ?>
+                                    <?= $websiteStats['leastRecent']->getUrl() ?>
+                                    <br>
+                                    <?= $websiteStats['leastRecent']->getLastView(); ?>
+                                <?php else: ?>
+                                    N/A
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if ($websiteStats['mostRecent'] instanceof \Snowdog\DevTest\Model\Page): ?>
+                                    <?= $websiteStats['mostRecent']->getUrl() ?>
+                                    <br>
+                                    <?= $websiteStats['mostRecent']->getLastView(); ?>
+                                <?php else: ?>
+                                    N/A
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach ?>
                 </table>
