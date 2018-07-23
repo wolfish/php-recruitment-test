@@ -19,8 +19,8 @@ Following diagram shows basic database scheme
 ## Task 1
 
 Fork this git repository.
-_Make sure to commit Your work after every completed task._
-> Hint: make sure Your solutions are private, do NOT make pull requests against this repository to submit Your solutions
+_Make sure to commit your work after every completed task._
+> Hint: make sure your solutions are private, do NOT make pull requests against this repository to submit your solutions
 
 Install and configure application by running following command
 `php console.php migrate_db`
@@ -30,11 +30,11 @@ You can run PHP build-in server by running following command
 
 The web application is running at http://localhost:8000.
 
-Now create `.gitignore` file appropriate for Your development environment.
+Now create `.gitignore` file appropriate for your development environment.
 
 ## Task 2
 
-As You may have noticed console command `php console.php warm 3` is failing because it cannot access legacy library located in `lib` directory.
+As you may have noticed console command `php console.php warm 3` is failing because it cannot access legacy library located in `lib` directory.
 Fix this problem.
 
 ## Task 3
@@ -68,5 +68,5 @@ This functionality should be accessible via both command line and frontend.
 
 ## Task 7
 
-As You may have noticed pages that require logged in user are visible to users, and those that make sense only for not logged in users (like login or registration forms) are visible to logged in users.
-Introduce modification that will fix this problem (show login form to not logged in users on pages that require user context and show 403 message on login and registration forms when user is logged in).
+As you may have noticed pages that require logged user are visible to everyone, and those that make sense only for not logged users (like login or registration forms) are also visible to logged users.
+Introduce modification that will fix this problem (show login form to not logged users on pages that require user context and show 403 message on login and registration forms when user is logged in).

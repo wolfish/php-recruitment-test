@@ -52,6 +52,7 @@ class MigrateCommand
         $dbQuestion = new Question('Please provide database name: <comment>dev_test</comment> ', 'dev_test');
         $userQuestion = new Question('Please provide database user name: <comment>[root]</comment> ', 'root');
         $passwordQuestion = new Question('Please provide database password: ');
+        $passwordQuestion->setHidden(true);
 
         $hostName = false;
         $dbName = false;

@@ -18,11 +18,11 @@ Menu::setContainer($container);
 $route = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 switch ($route[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        header("HTTP/1.0 404 Not Found");
+        header($_SERVER['SERVER_PROTOCOL'] . " 404 Not Found");
         require __DIR__ . '/../src/view/404.phtml';
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        header("HTTP/1.0 405 Method Not Allowed");
+        header($_SERVER['SERVER_PROTOCOL'] . " 405 Method Not Allowed");
         require __DIR__ . '/../src/view/405.phtml';
         break;
     case FastRoute\Dispatcher::FOUND:
