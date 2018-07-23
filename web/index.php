@@ -5,6 +5,8 @@ use Snowdog\DevTest\Component\RouteRepository;
 
 session_start();
 
+define('WEB_DIR', __DIR__);
+
 $container = require __DIR__ . '/../app/bootstrap.php';
 
 $routeRepository = RouteRepository::getInstance();

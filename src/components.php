@@ -22,6 +22,8 @@ use Snowdog\DevTest\Menu\VarnishesMenu;
 use Snowdog\DevTest\Controller\VarnishesAction;
 use Snowdog\DevTest\Controller\CreateVarnishAction;
 use Snowdog\DevTest\Controller\CreateVarnishLinkAction;
+use Wolfish\SnowdogTestSitemapImporter\Command\ImportSitemapCommand;
+use Wolfish\SnowdogTestSitemapImporter\Controller\SitemapImportAction;
 
 RouteRepository::registerRoute('GET', '/', IndexAction::class, 'execute');
 RouteRepository::registerRoute('GET', '/login', LoginFormAction::class, 'execute');
@@ -45,3 +47,6 @@ Menu::register(VarnishesMenu::class, 210);
 RouteRepository::registerRoute('GET', '/varnish', VarnishesAction::class, 'execute');
 RouteRepository::registerRoute('POST', '/varnish/create', CreateVarnishAction::class, 'execute');
 RouteRepository::registerRoute('POST', '/varnish/link', CreateVarnishLinkAction::class, 'execute');
+
+CommandRepository::registerCommand('import_sitemap [user_login]', ImportSitemapCommand::class);
+RouteRepository::registerRoute('POST', '/sitemap/upload', SitemapImportAction::class, 'execute');

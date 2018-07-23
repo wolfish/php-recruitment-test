@@ -106,4 +106,15 @@ class PageManager
             'mostRecent' => array_pop($results)
         ];
     }
+
+    public function getByUrl($url)
+    {
+        $query = $this->database->prepare(
+            'SELECT * FROM `pages` WHERE `url` = :url'
+        );
+        $query->bindParam(':url', $url);
+        $query->execute();
+
+        return $query->fetchObject(Page::class);
+    }
 }
